@@ -12,7 +12,6 @@ gulp.task('browserify', bundle);
 
 function bundle() {
   config.files.map(function(entry){
-
     var opts = {
       cache: {},
       packageCache: {},
