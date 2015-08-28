@@ -20,7 +20,14 @@ function bundle() {
       entries: [entry]
     }
 
-    var b = watchify(browserify(opts));
+    if(global.isWatching) {
+      var b = watchify(browserify(opts));
+      b = watchify(b);
+      b.on('update', bundle);
+    }
+    else {
+      var b = browserify(opts);
+    }
 
     var bundleit = function() {
       bundleLogger.start(config.paths.dest);
@@ -37,8 +44,6 @@ function bundle() {
       }))
       .pipe(gulp.dest(config.paths.dest));
     }
-
-    b.on('update', bundleit);
     bundleit();
   });
 }
